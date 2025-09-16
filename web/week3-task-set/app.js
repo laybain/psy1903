@@ -39,7 +39,7 @@ console.log(over18 || hasGuardianApproval);
 let count = 8;
 console.log(count % 2 == 0);
 
-*/
+
 
 let num1 = Math.floor(Math.random() * 10) + 1;
 let num2 = Math.floor(Math.random() * 10) + 1;
@@ -60,4 +60,17 @@ if (userAnswer == correctAnswer) {
 }
 
 alert(feedback + ' The expected answer is' + correctAnswer);
+*/
+
+let age = prompt('How old are you?');
+if (age < 12) {
+    alert('Child');
+}
+if (age >= 12 && age < 18) {
+    alert('Teenager');
+}
+if (age >= 18) {
+    alert('Adult');
+}
+
 
