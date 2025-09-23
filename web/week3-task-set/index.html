@@ -1,18 +1,24 @@
-<!DOCTYPE html>
+<html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Week 3 Task Set</title>
-    <script src='app.js' defer></script>
+    <script src="app.js" defer></script>
 </head>
 
 <body>
-
     <h1>Week 3 Task Set</h1>
-
-
+    <p id="instructions">Answer the following question as quickly and accurately as you can.</p>
+    <form id="form">
+        <p>
+            What is <span id="num1"></span> + <span id="num2"></span> ?
+        </p>
+        <input type="number" id="response" required>
+        <button id="submitbutton" type="submit">Submit</button>
+    </form>
+    <p id="feedback"></p>
 </body>
 
 </html>
