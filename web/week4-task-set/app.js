@@ -92,7 +92,6 @@ Return this word.
 6. Test
 Call the function using console.log and provide an example array to ensure it behaves as expected.
 
-*/
 
 let words = ['apple', 'banana', 'cherry', 'pear', 'grape'];
 
@@ -117,3 +116,41 @@ function getLongestWord(words) { //parameter, what are we inputting?
 
 console.log(getLongestWord(words));
 
+
+
+let words = ['apple', 'banana', 'cherry', 'pear', 'grape'];
+
+function getWordLengths(words) {
+
+    let lengths = [];
+    for (let word of words) {
+        lengths.push(word.length);
+    }
+    return lengths
+}
+
+*/
+
+let numbers = [1, 2, 3, 4, 5]
+
+function getOddNumbers(numbers) {
+
+    //Initialize an empty array named results to store odd numbers.
+
+    let results = []
+
+    //Loop through the given array of numbers.
+
+    for (let num of numbers) {
+        if (num % 2 == 0) {
+
+        } else {
+            results.push(num) //only push odd numbers to results 
+
+        }
+    }
+    return results
+
+}
+
+console.log(getOddNumbers(numbers));
