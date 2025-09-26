@@ -129,8 +129,6 @@ function getWordLengths(words) {
     return lengths
 }
 
-*/
-
 let numbers = [1, 2, 3, 4, 5]
 
 function getOddNumbers(numbers) {
@@ -154,3 +152,27 @@ function getOddNumbers(numbers) {
 }
 
 console.log(getOddNumbers(numbers));
+
+*/
+
+function filterNumbers(numbers, evenOrOdd) {
+    // array to store results
+    let results = [];
+
+    for (let number of numbers) {
+
+        // If filter is for even numbers and current number is even
+        if (evenOrOdd === 'even' && number % 2 === 0) {
+            results.push(number);
+        }
+        // If filter is for odd numbers and current number is odd
+        else if (evenOrOdd === 'odd' && number % 2 !== 0) {
+            results.push(number);
+        }
+    }
+
+    return results;
+}
+
+console.log(filterNumbers([1, 2, 3, 4, 5], 'even')); // [2, 4]
+console.log(filterNumbers([1, 2, 3, 4, 5], 'odd'));  // [1, 3, 5]
