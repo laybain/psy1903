@@ -49,7 +49,7 @@ Map directly to a new array (using array methods).
 Iterate Over the Input Array
 
 Go through each word in the words array.
-You can use a loop (e.g., for loop) or the map method.
+You can use a loop (e.g., for loop) 
 Determine Each Word's Length
 
 For each word, calculate its length using the string's length property.
@@ -58,8 +58,6 @@ Store/Return the Lengths
 Gather these lengths into a new array (either by pushing to it inside the loop or as the result of the mapping).
 Return the new array from the function.
 Test the Function
-
-*/
 
 let words = ['apple', 'banana', 'cherry', 'pear', 'grape'];
 
@@ -77,5 +75,45 @@ console.log(getWordLengths(words)); // Expected output: [5, 6, 6, 4, 5]
 
 
 
+1. Function Setup
+Define a function called getLongestWord (just like you did with getWordLengths).
+This function should take an array of words as its parameter.
+2. Initialize a Tracker
+Create a variable to store the currently "longest word" as you go through the array. Start with an empty string or the first word in the array (depending on your approach).
+3. Loop Through the Array
+Use a loop (for...of loop works well) to go through each word in the array.
+4. Comparison Logic
+For each word, compare its .length to the .length of the longest word you have stored.
+If the current word is longer, update your tracker variable to this word.
+If it's the same length or shorter, do nothing (since you want the first longest word).
+5. After the Loop
+Once the loop is done, the tracker variable should hold the first longest word.
+Return this word.
+6. Test
+Call the function using console.log and provide an example array to ensure it behaves as expected.
 
+*/
+
+let words = ['apple', 'banana', 'cherry', 'pear', 'grape'];
+
+function getLongestWord(words) { //parameter, what are we inputting? 
+
+    let longestWord = ""; //tracking single longest word so use string instead of array 
+
+    // Loop through each word in the array
+    for (let word of words) {
+
+        // Compare the length of this word to our current longest
+        if (word.length > longestWord.length) {
+
+            // If this word is longer, replace as the new "longestWord"
+            longestWord = word;
+        }
+
+    }
+
+    return longestWord;
+}
+
+console.log(getLongestWord(words));
 
