@@ -153,7 +153,6 @@ function getOddNumbers(numbers) {
 
 console.log(getOddNumbers(numbers));
 
-*/
 
 function filterNumbers(numbers, evenOrOdd) {
     // array to store results
@@ -176,3 +175,49 @@ function filterNumbers(numbers, evenOrOdd) {
 
 console.log(filterNumbers([1, 2, 3, 4, 5], 'even')); // [2, 4]
 console.log(filterNumbers([1, 2, 3, 4, 5], 'odd'));  // [1, 3, 5]
+
+*/
+
+alert(
+
+    "Welcome to the even/odd response time task.\n\n" +
+    "You are about to see a series of numbers.\n\n" +
+    "If the number you see is EVEN, type the letter 'e'.\n" +
+    "If the number you see is ODD, type the letter 'o'.\n\n" +
+    "Please answer as quickly and accurately as possible.");
+
+let results = [];
+
+//Run 5 trials 
+for (let i = 0; i < 5; i++) {
+
+    //generate random num 1-20
+    let number = Math.floor(Math.random() * 20) + 1;
+
+    let start = Date.now();
+
+    //prompt for user input/response
+    let response = prompt(`Type the letter 'e' for EVEN \n\n Type the letter 'o' for ODD \n\nNumber: ${number}`);
+
+    let end = Date.now();
+
+    let responseTime = (end - start) / 1000;
+
+    //check responses
+    if (response === null) response = "";
+
+    response = response.trim().toLowerCase();
+
+    let isEven = number % 2 === 0;
+
+    let correct = (response === "e" && isEven) || (response === "o" && !isEven);
+
+
+    //accumulate results
+    results.push({ number: number, response: response, correct: correct, responseTime: + responseTime.toFixed(3) }); //track response time as part of results
+}
+
+alert("Thank you for participating in the experiment!");
+
+console.log(results);
+
