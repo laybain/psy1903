@@ -98,7 +98,7 @@ timeline.push(debriefTrial);
 
 jsPsych.run(timeline);
 
-*/
+
 
 // Initialize jsPsych and timeline
 let jsPsych = initJsPsych(); // This sets up jsPsych for the experiment.
@@ -161,7 +161,9 @@ for (let i = 0; i < num_trials; i++) {
             - data.response is 0 or 1 (the index of the clicked button)
             - choicesArr[data.response] is the label of the button (a string)
             - convert it to a number to compare to correctAnswer
-            */
+            
+
+
             let answer = Number(choicesArr[data.response]); // Which answer did they click?
             data.answer = answer; // Save their answer to the trial data.
             // Set correct to true only if they selected the correct sum
@@ -179,11 +181,11 @@ timeline.push({
     choices: ['Finish'],
     // When this finishes, print all data for math trials to the console
     on_finish: function () {
-        /*
+        
         After experiment is over:
         - Get all trials that used the html-button-response plugin (the math)
         - Print out specified fields for each trial in one line per trial 
-        */
+        
         let results = jsPsych.data.get().filter({ trial_type: 'html-button-response' }).values();
         console.log("rt,time_elapsed,num1,num2,correctAnswer,altAnswer,answer,correct");
         results.forEach(t => {
@@ -204,3 +206,73 @@ timeline.push({
 // start experiment
 jsPsych.run(timeline);
 
+*/
+
+let jsPsych = initJsPsych();
+
+let timeline = [];
+
+// 1. Welcome screen
+let welcome = {
+    type: jsPsychHtmlKeyboardResponse,
+    stimulus: `
+    <h2>Welcome to the Math Response Time Task!</h2>
+    <p>In this experiment, you will be shown a series of math questions.<br>
+    Please answer as quickly and accurately as possible.</p>
+    <p>Press SPACE to begin.</p>
+  `,
+    choices: [' ']
+};
+
+timeline.push(welcome);
+
+// 2. Make trials with a for loop
+let num_trials = 3;
+for (let i = 0; i < num_trials; i++) {
+    // Generate two random numbers 
+    let num1 = Math.floor(Math.random() * 10) + 1;
+    let num2 = Math.floor(Math.random() * 10) + 1;
+    let correctAnswer = num1 + num2;
+
+    let math_trial = {
+        type: jsPsychSurveyHtmlForm,
+        html: '<p>' + num1 + ' + ' + num2 + ' = <input name="answer" type="number" required /></p>',
+        data: {
+            num1: num1,
+            num2: num2,
+            correctAnswer: correctAnswer
+        },
+        button_label: "Submit"
+    };
+    timeline.push(math_trial);
+}
+
+// 3. Debrief & results
+let debrief = {
+    type: jsPsychHtmlButtonResponse,
+    stimulus: '<p>Thank you for participating!</p><p>Press the button to finish.</p>',
+    choices: ['Finish'],
+    on_finish: function () {
+        let data = jsPsych.data.get().filter({ trial_type: 'survey-html-form' }).values();
+        let output = [];
+        for (let i = 0; i < data.length; i++) {
+            let trial = data[i];
+            let answer = Number(trial.response.answer);
+            let correct = answer === trial.correctAnswer;
+            output.push({
+                rt: trial.rt,
+                time_elapsed: trial.time_elapsed,
+                num1: trial.num1,
+                num2: trial.num2,
+                correctAnswer: trial.correctAnswer,
+                answer: answer,
+                correct: correct
+            });
+        }
+        console.log("Math Response Time Results:", output);
+    }
+};
+
+timeline.push(debrief);
+
+jsPsych.run(timeline);
