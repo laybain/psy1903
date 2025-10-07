@@ -1,0 +1,31 @@
+.key {
+    border: 1px solid black;
+    border-radius: 2px;
+    display: inline-block;
+    padding: 5px 10px;
+}
+
+.experiment-heading {
+    background-color: teal;
+    color: white;
+    font-family: Georgia, serif;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.equation {
+    font-size: 36px;
+}
+
+.eqnum {
+    background-color: yellow;
+    padding: 0 5px;
+    border-radius: 3px;
+}
+
+.jspsych-display-element input[type="text"] {
+    font-size: 36px !important;
+    text-align: center;
+    width: 100px;
+    box-sizing: border-box;
+}
