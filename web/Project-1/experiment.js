@@ -5,6 +5,26 @@ let jsPsych = initJsPsych({
 
 let timeline = [];
 
+
+let consentTrial = {
+
+    type: jsPsychHtmlKeyboardResponse,
+    stimulus: `
+    <h2 class="experiment-heading">Welcome to the Distractor Load and Cognitive Processing Speed in Visual Search Task!</h2>
+
+    <p> The experiment you are about to complete is an educational exercise designed for PSY 1903: Programming for Psychological Scientists; it is not intended as a true scientific experiment.
+    <p> No identifying information will be collected, data will not be shared beyond our class, and your participation is completely voluntary.
+    <p> If you have any questions, please reach out to Annabella Ritzau (aritzau@college.harvard.edu), one of the researchers.
+    <p> If you agree to participate, press <span class= 'key'> SPACE</span> to begin. </p> 
+    `,
+    choices: [' '],
+
+};
+
+timeline.push(consentTrial);
+
+
+
 // Instructions
 
 let instructions = {
@@ -22,20 +42,21 @@ let instructions = {
 <p>Press <span class='key'>SPACE</span> to begin.</p>
 `,
 
-    choices: [' ']
+    choices: [' '],
 
 }
 
 timeline.push(instructions);
 
 
-//random cloudsize for each trial
-shuffleArray(experimentConditions);
+experimentConditions = shuffleNoConsecutiveRepeats(experimentConditions, "cloudSize");
+
+
 
 //Create the distractor pool (all words except targetWord)
 // Make a new array with all words BUT "ocean"—used for picking distractors
 
-var distractorPool = [];
+let distractorPool = [];
 for (var i = 0; i < wordPool.length; i++) {
     if (wordPool[i] !== "ocean") { // If this word is NOT "ocean"...
         distractorPool.push(wordPool[i]); // ...add it to the list of distractors
@@ -43,68 +64,65 @@ for (var i = 0; i < wordPool.length; i++) {
 }
 
 // all our trial word clouds
-var all_trials = [];
+let all_trials = [];
 
 // For EVERY trial we build...
-for (var i = 0; i < experimentConditions.length; i++) {
-    var thisCond = experimentConditions[i]; // Get this trial's condition (cloudSize)
-    var cloud = ["ocean"]; // Start each word cloud with only "ocean" (the target)
 
-    //add random distractors until we reach the correct total size
-    var usedDistractors = []; // Keep track of distractors we've added for this cloud
-    while (cloud.length < thisCond.cloudSize) { // Until cloud is big enough
-        shuffleArray(distractorPool);
-        var word = distractorPool[0]; // Pick a random distractor word
-        if (usedDistractors.indexOf(word) === -1) { // If we haven't added this word yet...
-            cloud.push(word); // Add it to this word cloud
-            usedDistractors.push(word); // Keep track, to avoid duplicates
+
+for (var i = 0; i < experimentConditions.length; i++) {
+    let thisCond = experimentConditions[i];
+    let cloud = ["ocean"];
+    let usedDistractors = ["ocean"];
+    while (cloud.length < thisCond.cloudSize) {
+        let word = distractorPool[Math.floor(Math.random() * distractorPool.length)];
+        if (usedDistractors.indexOf(word) === -1) {
+            cloud.push(word);
+            usedDistractors.push(word);
         }
     }
+    shuffleArray(cloud); // Shuffle the cloud array
 
-    shuffleArray(cloud); //so that target word isn't always first
-
-    // Record this trial setup so we can use it later
     all_trials.push({
-        cloudSize: thisCond.cloudSize, // How many words are in the cloud
-        target: "ocean", // The target word (always "ocean")
-        wordCloud: cloud // The shuffled array of words to show
+        cloudSize: thisCond.cloudSize,
+        target: "ocean",
+        wordCloud: cloud
     });
 }
 
 
 for (let i = 0; i < all_trials.length; i++) {
+    let trialInfo = all_trials[i];
     timeline.push({
         type: jsPsychHtmlButtonResponse,
         stimulus: `<p>Find the word: <b>ocean</b></p>`,
-        choices: all_trials[i].wordCloud,
+        choices: trialInfo.wordCloud,
         data: {
             trial_index: i,
-            condition: all_trials[i].cloudSize,
+            condition: trialInfo.cloudSize,
             target: 'ocean',
-            wordCloud: all_trials[i].wordCloud
+            wordCloud: trialInfo.wordCloud
         },
         on_finish: function (data) {
             const response = data.response;
-            if (response !== null && all_trials[i].wordCloud[response] === 'ocean') {
+            if (response !== null && trialInfo.wordCloud[response] === 'ocean') {
                 data.correct = true;
             } else {
                 data.correct = false;
             }
-            console.log(`Trial ${i}: Correct? ${data.correct}`);
+            console.log(`Trial ${data.trial_index}: Correct? ${data.correct}`);
         }
     });
 }
 
-
 //save results
 let resultsTrial = {
     type: jsPsychHtmlKeyboardResponse,
-    choices: ['NO_KEYS'],
+    choices: "NO_KEYS",
     stimulus: `
-        <h1>Please wait...</h1>
-        <span class="loader"></span>
-        <p>We are saving the results of your inputs.</p>
-        `,
+    <h1>Please wait...</h1>
+    <span class="loader"></span>
+    <p>We are saving the results of your inputs.</p>
+     `,
     on_start: function () {
 
 
@@ -115,7 +133,7 @@ let resultsTrial = {
 
         let results = jsPsych.data
             .get()
-            .filter({ collect: true })
+            .filter({ collect: false })
             .ignore(['stimulus', 'trial_type', 'plugin_version', 'collect'])
             .csv();
 
@@ -176,11 +194,3 @@ jsPsych.run(timeline);
 
 
 
-// ---------- 3. DATA TO RECORD EACH TRIAL
-// - condition ("one-word", "five-words", "ten-words")
-// - trial number
-// - target word
-// - list of all words shown (array)
-// - selected word
-// - correct (boolean)
-// - reaction time
