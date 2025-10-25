@@ -1,4 +1,5 @@
 // Define the word pool - ideally 20+ words for flexibility
+
 let wordPool = [
     "apple", "table", "ocean", "cloud", "chair", "house", "banana", "garden",
     "lemon", "door", "window", "flower", "train", "biscuit", "zipper",
