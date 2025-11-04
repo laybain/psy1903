@@ -61,9 +61,10 @@ for (var i = 0; i < wordPool.length; i++) {
     if (wordPool[i] !== "ocean") { // If this word is NOT "ocean"...
         distractorPool.push(wordPool[i]); // ...add it to the list of distractors
     }
-}
+};
 
 let fixation_button_trial = {
+
     type: jsPsychHtmlButtonResponse,
     stimulus: `<div style="height: 700px; position: relative;">
     <p style="text-align: center;">Place your mouse at the center and click the + to start the next trial.</p>

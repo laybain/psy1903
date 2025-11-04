@@ -15,7 +15,8 @@ let experimentConditions = [
     { cloudSize: 5 }, { cloudSize: 5 }, { cloudSize: 5 }, { cloudSize: 5 }, { cloudSize: 5 },
     { cloudSize: 10 }, { cloudSize: 10 }, { cloudSize: 10 }, { cloudSize: 10 }, { cloudSize: 10 }
 
-];
+]
+
 
 
 function shuffleNoConsecutiveRepeats(arr, key) {
