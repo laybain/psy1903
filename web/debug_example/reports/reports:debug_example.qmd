@@ -1,0 +1,9 @@
+---
+title: "Week 10 Debugging Exercise"
+author: "Alaina"
+format: html
+execute:
+  echo: true
+  warning: true
+  message: true
+---

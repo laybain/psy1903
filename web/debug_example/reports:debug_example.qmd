@@ -1,0 +1,6 @@
+---
+title: "Week 10 Debugging Exercise"
+author: "Alaina"
+format: html
+editor: visual
+---

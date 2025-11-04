@@ -161,7 +161,8 @@ for (let i = 0; i < all_trials.length; i++) {
             trial_index: i,
             condition: trialInfo.cloudSize,
             target: 'ocean',
-            wordCloud: trialInfo.wordCloud
+            wordCloud: trialInfo.wordCloud,
+            collect: true
         },
         on_load: function () {
             document.querySelector('.jspsych-content').style.position = "relative";
@@ -202,10 +203,11 @@ let resultsTrial = {
 
         let results = jsPsych.data
             .get()
-            .filter({ collect: false })
+            .filter({ collect: true })
             .ignore(['stimulus', 'trial_type', 'plugin_version', 'collect'])
             .csv();
 
+        console.log(results)
 
         let participantId = new Date().toISOString().replace(/T/, '-').replace(/\..+/, '').replace(/:/g, '-');
 

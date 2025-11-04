@@ -211,7 +211,7 @@ form.addEventListener('submit', function (event) {
     } else {
         resultMsg += 'INCORRECT. The correct answer was ' + correctAnswer + '.';
     }
-
+    //Display results 
     feedback.textContent = resultMsg;
 
     // Hide the form and instructions after answer

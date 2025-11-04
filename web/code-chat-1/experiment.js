@@ -3,7 +3,26 @@ let timeline = [];
 
 // Welcome trial will go here
 
-let welcomeTrial = {
+
+let consentTrial = {
+
+    type: jsPsychHtmlKeyboardResponse,
+    stimulus: `
+    <h2 class="experiment-heading">Welcome to the Distractor Load and Cognitive Processing Speed in Visual Search Task!</h2>
+
+    <p> The experiment you are about to complete is an educational exercise designed for PSY 1903: Programming for Psychological Scientists; it is not intended as a true scientific experiment.
+    <p> No identifying information will be collected, data will not be shared beyond our class, and your participation is completely voluntary.
+    <p> If you have any questions, please reach out to Annabella Ritzau (aritzau@college.harvard.edu), one of the researchers.
+    <p> If you agree to participate, press <span class= 'key'> SPACE</span> to begin. </p> 
+    `,
+    choices: [' ']
+
+};
+
+timeline.push(welcome_Page);
+
+
+let instructionsTrial = {
     type: jsPsychHtmlKeyboardResponse,
     stimulus: `
 
@@ -17,7 +36,8 @@ let welcomeTrial = {
 
     choices: [' ']
 };
-timeline.push(welcomeTrial);
+timeline.push(instructionsTrial);
+
 
 conditions = jsPsych.randomization.repeat(conditions, 1);
 
