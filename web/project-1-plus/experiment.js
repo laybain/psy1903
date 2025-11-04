@@ -77,9 +77,7 @@ let fixation_button_trial = {
             left: ${CENTER_X}px;
             top: ${CENTER_Y}px;
             transform: translate(-50%, -50%);
-            font-size: 3em;
-            min-width: 80px;
-            min-height: 80px;
+            font-size: 1.5em;
         ">${choice}</button>`;
     },
     on_load: function () {
