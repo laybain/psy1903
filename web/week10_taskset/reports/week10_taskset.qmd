@@ -1,0 +1,17 @@
+---
+title: "Week 10 Problem Set"
+author: "Alaina"
+format: html
+editor: visual
+execute:
+  echo: true
+  warning: true
+  message: true
+---
+
+```{r}
+experiment_data <- readRDS("../data/raw/experiment_data.rds")
+head(experiment_data)
+str(experiment_data)
+
+```
