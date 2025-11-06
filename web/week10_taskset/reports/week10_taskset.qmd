@@ -15,3 +15,35 @@ head(experiment_data)
 str(experiment_data)
 
 ```
+
+```{r}
+getRandomNumber <- function(min = 1, max = 10, number = 1) {
+  sample(min:max, number)
+}
+
+```
+
+```{r}
+
+classify_rt <- function(rt, threshold = 500) {
+  # 1. Input checks threshold is numeric and a single number
+  if (!is.numeric(threshold) || length(threshold) != 1) {
+    stop("Error: 'threshold' must be a single numeric value.")
+  
+  }
+  
+  # 2. Classification logic (vectorized)
+  category <- ifelse (
+  is.na(rt), "Unknown",
+  ifelse(rt < threshold, "Fast", "Slow")
+  )
+
+  # 3. Return result
+  return(category)
+}
+
+classify_rt(c(100, 600, NA, 480))
+
+
+```
+
