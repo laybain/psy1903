@@ -10,13 +10,32 @@ execute:
 ---
 
 ```{r}
+setwd("/Users/shaw/Desktop/psy1903/web/")
+dir.create("week10_taskset")
+dir.create("week10_taskset/data")
+dir.create("week10_taskset/data/raw")
+dir.create("week10_taskset/data/cleaned")
+dir.create("week10_taskset/scripts")
+dir.create("week10_taskset/output")
+dir.create("week10_taskset/output/plots")
+dir.create("week10_taskset/output/tables")
+dir.create("week10_taskset/reports")
+```
+
+
+
+
+```{r}
 experiment_data <- readRDS("../data/raw/experiment_data.rds")
 head(experiment_data)
 str(experiment_data)
 
 ```
 
+
 ```{r}
+#### Q2: Functions ------------------------------------------------
+
 getRandomNumber <- function(min = 1, max = 10, number = 1) {
   sample(min:max, number)
 }
@@ -46,4 +65,186 @@ classify_rt(c(100, 600, NA, 480))
 
 
 ```
+
+```{r}
+## Q3: Loops vs. Vectorization -----------------------------
+
+
+## row-by-row (loop)
+
+# create empty column 
+experiment_data$age <- NA
+
+#loop over each row 
+for (i in 1:nrow(experiment_data)) {
+
+# fill one value per row in age column using getRandomNum b/w 18-65
+experiment_data$age[i] <- sample(18:65, 1)
+}
+
+head(experiment_data) 
+
+
+```
+
+```{r}
+## vectorized version 
+
+experiment_data$age <- sample(18:65, nrow(experiment_data), replace = TRUE)
+
+head(experiment_data)
+```
+```{r}
+#Q4: Control Structures on Data Frames ---------------------------
+
+## Loop 
+
+#create empty column 
+experiment_data$rt_category_loop <- NA
+
+#for each row 
+for (i in 1:nrow(experiment_data)) {
+
+#assign classification for each row    
+  
+experiment_data$rt_category_loop[i] <- ## fill in just the i-th row 
+classify_rt(experiment_data$rt[i]) ## only classify the i-th value
+
+}
+
+head(experiment_data) 
+```
+
+```{r}
+## vectorized version 
+
+## create new column
+experiment_data$rt_category_vec <-
+## pass entire rt column into classify function 
+## input= rt output= fast/slow/unknown 
+classify_rt(experiment_data$rt)
+
+head(experiment_data)
+```
+
+```{r}
+table(loop = experiment_data$rt_category_loop,
+      vec  = experiment_data$rt_category_vec,
+      useNA = "ifany")
+```
+
+```{r}
+#### Q5: Debugging Functions -----------------------------
+
+## Create Buggy Function
+threshold <- 500
+
+flag_fast <- function(rt_vector) {
+  rt_vector < threshold
+}
+
+flag_fast(experiment_data$rt)
+
+rm(threshold)
+
+```
+
+```{r}
+# debug and fix 
+
+flag_fast <- function(rt_vector, threshold = 500) {
+  rt_vector < threshold
+}
+
+
+```
+```{r}
+#### Q6: Debugging Tools in Action -----------------------------
+
+## reproduce the issue 
+
+subject_means <- tapply(experiment_data$rt,
+                        experiment_data$condition,
+                        mean)
+print(paste("Mean for control:", subject_means["control"]))
+print(paste("Mean for incongruent:", subject_means["incongruent"]))
+
+```
+```{r}
+# How many NAs overall?
+sum(is.na(experiment_data$rt))
+
+# How many NAs by condition?
+tapply(is.na(experiment_data$rt), experiment_data$condition, sum)
+
+# Optional: quick sanity checks
+summary(experiment_data$rt)
+with(experiment_data, table(condition, is.na(rt)))
+
+
+```
+```{r}
+subject_means <- tapply(
+  experiment_data$rt,
+  experiment_data$condition,
+  mean,
+  na.rm = TRUE 
+)
+
+print(paste("Mean for control:", subject_means["control"]))
+print(paste("Mean for incongruent:", subject_means["incongruent"]))
+```
+
+```{r}
+#### Q7 : Using AI for Debugging or Refactoring 
+
+classify_rt <- experiment_data$rt
+experiment_data$classify_rt <- NA
+category <- c("Fast", "Slow", "Unknown")
+classify_rt <- function(threshold = 500 )
+
+```
+AI did a good job expanding on what the error message identified: Incomplete Function Definition 
+
+In R, the function keyword must be followed by a body in {} brackets.
+
+It also highlighted two additional issues 
+
+Variable name conflict
+using classify_rt as both a variable and a function name
+
+Vectorization/Logic
+want to use your function to create a new variable (experiment_data$classify_rt) based on the logic for rt
+
+Additionally is gave instructions on how to write the function by listing out the conditions then providing the coupling syntax 
+
+This is verified within out notes "Functions, Loops, and Control Structures in R" Section "Creating Your Own Functions"
+
+When you make the suggested corrections and complete the expression, the code works. In this example all the elements are within the code, but the syntax has errors and ultimately the elements are in the wrong place. This example highlights how to differentiate between the input arguments ans the code within the function body.  
+
+```{r}
+#### Q8: Saving and Reloading Objects -----------------------------
+
+
+```
+
+
+```{r}
+
+write.csv(experiment_data, "data/cleaned/experiment_data.csv", row.names = FALSE)
+
+saveRDS(experiment_data, "data/cleaned/experiment_data.rds")
+
+```
+
+
+
+
+q8.2
+
+Save both your experiment_data and subject_means objects together as a single workspace file called objects.RData.
+
+Then clear your environment (rm(list = ls)) and test whether you can reload them successfully. Copy and paste the reload command here:
+
+
 
