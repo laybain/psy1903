@@ -198,10 +198,10 @@ print(paste("Mean for incongruent:", subject_means["incongruent"]))
 ```{r}
 #### Q7 : Using AI for Debugging or Refactoring 
 
-classify_rt <- experiment_data$rt
-experiment_data$classify_rt <- NA
-category <- c("Fast", "Slow", "Unknown")
-classify_rt <- function(threshold = 500 )
+#classify_rt <- experiment_data$rt
+#experiment_data$classify_rt <- NA
+#category <- c("Fast", "Slow", "Unknown")
+#classify_rt <- function(threshold = 500 )
 
 ```
 AI did a good job expanding on what the error message identified: Incomplete Function Definition 
@@ -225,26 +225,30 @@ When you make the suggested corrections and complete the expression, the code wo
 ```{r}
 #### Q8: Saving and Reloading Objects -----------------------------
 
+setwd("/Users/shaw/Desktop/psy1903/web/")
+
+
+write.csv(experiment_data, "week10_taskset/data/cleaned/experiment_data.csv", row.names = FALSE)
+saveRDS(experiment_data, "week10_taskset/data/cleaned/experiment_data.rds")
+
 
 ```
-
 
 ```{r}
 
-write.csv(experiment_data, "data/cleaned/experiment_data.csv", row.names = FALSE)
+setwd("/Users/shaw/Desktop/psy1903/web/")
 
-saveRDS(experiment_data, "data/cleaned/experiment_data.rds")
+save(experiment_data, subject_means, file = "week10_taskset/data/cleaned/objects.RData")
 
+# Clear environment
+rm(list = ls())
+
+# Reload both objects from the .RData file
+load("week10_taskset/data/cleaned/objects.RData")
 ```
 
 
 
-
-q8.2
-
-Save both your experiment_data and subject_means objects together as a single workspace file called objects.RData.
-
-Then clear your environment (rm(list = ls)) and test whether you can reload them successfully. Copy and paste the reload command here:
 
 
 
